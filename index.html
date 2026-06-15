@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডিজিটাল প্রোডাক্ট অর্ডার ফর্ম</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ১. মূল অর্ডার ফর্ম -->
+    <div class="form-container" id="orderFormContainer">
+        <h2>TextNow Team</h2>
+        
+        
+        <form id="digitalOrderForm">
+            <div class="input-group">
+                <label for="name">মেম্বার আইডি:</label>
+                <input type="text" id="name" name="team_member_name" placeholder="আপনার আইডি নাম্বার লিখন" required>
+            </div>
+
+            <div class="input-group">
+                <label for="product">প্লে স্টোর এবং হট মেইল:</label>
+                <select id="product" name="product_name" required>
+                    <option value="">-- একটি অপশন সিলেক্ট করুন --</option>
+                    <option value="Hot mail">Hotmail</option>
+                    <option value="play store">PlayStore</option>
+                   
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="quantity">পরিমাণ (Quantity):</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+            </div>
+
+            <div class="input-group">
+                <label for="details">অতিরিক্ত বিবরণ বা বিশেষ নির্দেশাবলী:</label>
+                <textarea id="details" name="order_details" rows="3" placeholder="বিশেষ নির্দেশাবলী থাকলে লিখুন..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">অর্ডার সাবমিট করুন</button>
+        </form>
+    </div>
+
+    <!-- ২. সাকসেস ড্যাশবোর্ড (যা অর্ডার সফল হলে শো করবে) -->
+    <div class="form-container success-container" id="successContainer" style="display: none;">
+        <div class="success-icon">✓</div>
+        <h2 class="success-title">Purchase Successful!</h2>
+        <p id="successProductType" style="color: #2ecc71; font-weight: bold; margin-bottom: 20px;"></p>
+        
+        <div class="order-meta">
+            <span>Order ID: <strong id="displayOrderId">#00000</strong></span>
+            <span>Total Paid: <strong id="displayPrice" style="color: #2ecc71;">$0.00</strong></span>
+        </div>
+
+        <div class="input-group" style="text-align: left;">
+            <label style="color: #bbb;">Credentials:</label>
+            <textarea id="credentialsText" rows="8" readonly></textarea>
+        </div>
+
+        <div class="button-group">
+            <button class="action-btn copy-btn" id="copyBtn">📋 Copy</button>
+            <button class="action-btn new-order-btn" id="newOrderBtn">Buy More</button>
+        </div>
+    </div>
+
+    <!-- জাভাস্ক্রিপ্ট ফাইল কানেক্ট করা -->
+    <script src="script.js"></script>
+</body>
+</html>
