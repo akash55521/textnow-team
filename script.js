@@ -418,19 +418,21 @@ document.getElementById('getOtpBtn').addEventListener('click', function() {
 // ========================================================
 // 🔄 ৭. ইউটিলিটি বাটন অ্যাকশনস (Copy & Reset)
 // ========================================================
-// ========================================================
-// 🔄 ৭. আপডেট করা কপি বাটন (গুগল শিট ফ্রেন্ডলি)
-// ========================================================
 document.getElementById('copyBtn').addEventListener('click', function() {
     const textElement = document.getElementById('credentialsText');
-    const rawData = textElement.value;
+    const rawData = textElement.value.trim(); // সম্পূর্ণ লাইন (ইমেইল|পাসওয়ার্ড|টোকেন)
     
-    // ফরম্যাটিং: সেমিকোলন (;) বা পাইপ (|) থাকলে সেটিকে ট্যাব (\t) দিয়ে রিপ্লেস করুন
-    // এতে গুগল শিটে পেস্ট করলে অটোমেটিক কলামে ভাগ হয়ে যাবে
-    const formattedData = rawData.replace(/[;|]/g, "\t"); 
+    // ডাটাকে পাইপ (|) দিয়ে আলাদা করা
+    const parts = rawData.split('|');
+    
+    const email = parts[0];     // ইমেইল অংশ
+    const token = rawData;      // পুরো লাইনটি বা টোকেনটি হুবহু রাখা
+
+    // গুগল শিট ফরম্যাট: [ইমেইল] [Tab] [পুরো টোকেন]
+    const formattedData = email + "\t" + token;
 
     navigator.clipboard.writeText(formattedData).then(() => {
-        this.innerText = "✓ Copied for Sheet!";
+        this.innerText = "✓ Copied!";
         setTimeout(() => { this.innerText = "Copy Credentials"; }, 2000);
     }).catch(err => {
         console.error("Copy failed: ", err);
