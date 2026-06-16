@@ -1,3 +1,4 @@
+// ========================================================
 // 👥 ১. টিম মেম্বার ডিকশনারি (লগইন সিস্টেম)
 // ========================================================
 const teamMembers = {
@@ -347,26 +348,67 @@ document.getElementById('getOtpBtn').addEventListener('click', function() {
     });
 });
 
-// ========================================================
-//// 🔄 ৭. ইউটিলিটি বাটন অ্যাকশনস (Copy & Reset) - ফিক্সড ভার্সন
+// =======================================================
+//// 🔄 ৭. ইউটিলিটি বাটন অ্যাকশনস (Copy & Reset)
+
+// কপি বাটন হ্যান্ডেলার
 document.getElementById('copyBtn').addEventListener('click', function () {
-    const rawData = document.getElementById('credentialsText').value.trim();
+    const credentialsField = document.getElementById('credentialsText');
+    const rawData = credentialsField.value.trim();
 
     if (!rawData) {
-        alert('No data found!');
+        alert('কোনো ডাটা পাওয়া যায়নি!');
         return;
     }
 
-    // এখন আর পাইপ '|' চেক করার দরকার নেই, যা আছে তাই কপি হবে
-    navigator.clipboard.writeText(rawData)
+    // ফরম্যাটিং লজিক
+    let email = "";
+    const firstSpace = rawData.indexOf(' ');
+    const firstPipe = rawData.indexOf('|');
+    let splitIndex = -1;
+
+    if (firstSpace !== -1 && firstPipe !== -1) splitIndex = Math.min(firstSpace, firstPipe);
+    else splitIndex = (firstSpace !== -1) ? firstSpace : firstPipe;
+
+    if (splitIndex !== -1) email = rawData.substring(0, splitIndex).trim();
+    else email = rawData.split('\n')[0].trim();
+
+    const formattedData = `${email}\t${rawData}`;
+
+    navigator.clipboard.writeText(formattedData)
         .then(() => {
-            this.innerText = '✓ Copied!';
-            setTimeout(() => {
-                this.innerText = 'Copy Credentials';
-            }, 2000);
+            const originalText = this.innerText;
+            this.innerText = '✓ কপি হয়েছে!';
+            setTimeout(() => { this.innerText = originalText; }, 2000);
         })
         .catch(err => {
-            console.error(err);
-            alert('Copy failed!');
+            console.error("কপি এরর:", err);
+            alert('কপি ব্যর্থ হয়েছে!');
         });
 });
+
+// অর্ডার মোর বাটন হ্যান্ডেলার
+document.getElementById('newOrderBtn').addEventListener('click', function() {
+    console.log("Order More clicked"); // কনসোলে চেক করার জন্য
+    
+    // ১. সাকসেস কন্টেইনার লুকান
+    document.getElementById('successContainer').style.display = 'none';
+    
+    // ২. অর্ডার ফর্ম কন্টেইনার দেখান
+    document.getElementById('orderFormContainer').style.display = 'block';
+    
+    // ৩. ফর্মটি ক্লিন করুন
+    document.getElementById('digitalOrderForm').reset();
+    
+    // ৪. সাবমিট বাটন এবং অন্যান্য স্টেট রিসেট করুন
+    resetButton();
+});
+
+// রিসেট ফাংশন (অবশ্যই যেন এটি গ্লোবাল স্কোপে থাকে)
+function resetButton() {
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.innerText = "অর্ডার সাবমিট করুন";
+        submitBtn.disabled = false;
+    }
+}
