@@ -4,8 +4,11 @@ const cors = require('cors');
 const app = express();
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors({
+  origin: '*', // সব ওয়েবসাইট থেকে রিকোয়েস্ট এক্সেপ্ট করবে
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type']
+}));
 
 // API এন্ডপয়েন্ট: মেইল চেক করার জন্য
 app.post('/get-mail', async (req, res) => {
