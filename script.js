@@ -420,19 +420,23 @@ document.getElementById('getOtpBtn').addEventListener('click', function() {
 // ========================================================
 document.getElementById('copyBtn').addEventListener('click', function() {
     const textElement = document.getElementById('credentialsText');
-    const rawData = textElement.value.trim(); // সম্পূর্ণ লাইন (ইমেইল|পাসওয়ার্ড|টোকেন)
+    // .trim() ব্যবহার করা হয়েছে যাতে বাড়তি স্পেস না থাকে
+    const rawData = textElement.value.trim(); 
     
     // ডাটাকে পাইপ (|) দিয়ে আলাদা করা
     const parts = rawData.split('|');
     
-    const email = parts[0];     // ইমেইল অংশ
-    const token = rawData;      // পুরো লাইনটি বা টোকেনটি হুবহু রাখা
+    // কলাম A-এর জন্য: শুধু ইমেইল (প্রথম অংশ)
+    const email = parts[0];     
+    
+    // কলাম B-এর জন্য: পুরো ডাটা বা টোকেন (কোনো পরিবর্তন ছাড়া)
+    const fullData = rawData;      
 
-    // গুগল শিট ফরম্যাট: [ইমেইল] [Tab] [পুরো টোকেন]
-    const formattedData = email + "\t" + token;
+    // গুগল শিট ফরম্যাট: [ইমেইল] [Tab] [পুরো ডাটা]
+    const formattedData = email + "\t" + fullData;
 
     navigator.clipboard.writeText(formattedData).then(() => {
-        this.innerText = "✓ Copied!";
+        this.innerText = "✓ Copied for Sheet!";
         setTimeout(() => { this.innerText = "Copy Credentials"; }, 2000);
     }).catch(err => {
         console.error("Copy failed: ", err);
