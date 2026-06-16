@@ -370,7 +370,3 @@ document.getElementById('copyBtn').addEventListener('click', function () {
             alert('Copy failed!');
         });
 });
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.innerText = "অর্ডার সাবমিট করুন";
-    submitBtn.disabled = false;
-}
