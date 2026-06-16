@@ -174,17 +174,66 @@ document.getElementById('digitalOrderForm').addEventListener('submit', async fun
             const displayId = result.order?.order_id || result.order_id || result.id || "N/A";
             document.getElementById('displayOrderId').innerText = "#" + displayId;
             
-            let finalCredentials = "";
-            if (result.order && result.order.credentials) {
-                finalCredentials = result.order.credentials;
-            } else if (result.account_data) {
-                finalCredentials = result.account_data;
-            } else {
-                const mainData = result.credentials || result.data || result.accounts || responseText;
-                finalCredentials = typeof mainData === 'object' ? JSON.stringify(mainData, null, 2) : mainData;
-            }
+let finalCredentials = "";
 
-            document.getElementById('credentialsText').value = finalCredentials;
+if (result.order && result.order.credentials) {
+    finalCredentials = result.order.credentials;
+} else if (result.account_data) {
+    finalCredentials = result.account_data;
+} else {
+    const mainData = result.credentials || result.data || result.accounts || responseText;
+    finalCredentials = typeof mainData === 'object'
+        ? JSON.stringify(mainData, null, 2)
+        : mainData;
+}
+
+// PLAYSTORE => Column A Email | Column B Password
+if (productName.includes("play") || productName.includes("store")) {
+
+    const rows = finalCredentials.split(/\r?\n/);
+    const output = [];
+
+    rows.forEach(row => {
+        row = row.trim();
+        if (!row) return;
+
+        const parts = row.split(";");
+
+        if (parts.length >= 2) {
+            const email = parts[0].trim();
+            const password = parts[1].trim();
+
+            output.push(`${email}\t${password}`);
+        }
+    });
+
+    finalCredentials = output.join("\n");
+}
+
+// HOTMAIL => Column A Email | Column B Token
+if (productName.includes("hot") || productName.includes("mail")) {
+
+    const rows = finalCredentials.split(/\r?\n/);
+    const output = [];
+
+    rows.forEach(row => {
+        row = row.trim();
+        if (!row) return;
+
+        const parts = row.split("|");
+
+        if (parts.length >= 3) {
+            const email = parts[0].trim();
+            const token = parts[2].trim();
+
+            output.push(`${email}\t${token}`);
+        }
+    });
+
+    finalCredentials = output.join("\n");
+}
+
+document.getElementById('credentialsText').value = finalCredentials;
         } else {
             alert("অর্ডার ব্যর্থ: " + (result.message || result.error || "স্টক বা ব্যালেন্স সমস্যা।"));
             resetButton();
