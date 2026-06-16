@@ -140,7 +140,7 @@ document.getElementById('digitalOrderForm').addEventListener('submit', async fun
         fetchOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ product_id: 'prd_52830b037f3d', amount: quantity })
+            body: JSON.stringify({ product_id: 'prd_eeeb28bc00cf', amount: quantity })
         };
     } else {
         alert("দয়া করে একটি সঠিক প্রোডাক্ট সিলেক্ট করুন (Hotmail/PlayStore)।");
