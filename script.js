@@ -418,30 +418,38 @@ document.getElementById('getOtpBtn').addEventListener('click', function() {
 // ========================================================
 // 🔄 ৭. ইউটিলিটি বাটন অ্যাকশনস (Copy & Reset)
 // ========================================================
-document.getElementById('copyBtn').addEventListener('click', function() {
-    const textElement = document.getElementById('credentialsText');
-    // .trim() ব্যবহার করা হয়েছে যাতে বাড়তি স্পেস না থাকে
-    const rawData = textElement.value.trim(); 
-    
-    // ডাটাকে পাইপ (|) দিয়ে আলাদা করা
-    const parts = rawData.split('|');
-    
-    // কলাম A-এর জন্য: শুধু ইমেইল (প্রথম অংশ)
-    const email = parts[0];     
-    
-    // কলাম B-এর জন্য: পুরো ডাটা বা টোকেন (কোনো পরিবর্তন ছাড়া)
-    const fullData = rawData;      
+document.getElementById('copyBtn').addEventListener('click', function () {
+    const rawData = document.getElementById('credentialsText').value.trim();
 
-    // গুগল শিট ফরম্যাট: [ইমেইল] [Tab] [পুরো ডাটা]
-    const formattedData = email + "\t" + fullData;
+    if (!rawData) {
+        alert('No data found!');
+        return;
+    }
 
-    navigator.clipboard.writeText(formattedData).then(() => {
-        this.innerText = "✓ Copied for Sheet!";
-        setTimeout(() => { this.innerText = "Copy Credentials"; }, 2000);
-    }).catch(err => {
-        console.error("Copy failed: ", err);
-        alert("কপি করতে সমস্যা হয়েছে!");
-    });
+    const firstPipe = rawData.indexOf('|');
+
+    // যদি | না থাকে
+    if (firstPipe === -1) {
+        alert('Invalid format!');
+        return;
+    }
+
+    const email = rawData.substring(0, firstPipe);
+
+    // A = email, B = full token
+    const formattedData = `${email}\t${rawData}`;
+
+    navigator.clipboard.writeText(formattedData)
+        .then(() => {
+            this.innerText = '✓ Copied for Sheet!';
+            setTimeout(() => {
+                this.innerText = 'Copy Credentials';
+            }, 2000);
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Copy failed!');
+        });
 });
 
 document.getElementById('newOrderBtn').addEventListener('click', function() {
