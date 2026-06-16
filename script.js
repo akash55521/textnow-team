@@ -17,6 +17,7 @@ const teamMembers = {
     "46434754": { name: "Anik", img: "https://i.ibb.co/example/Anik.jpg" },
     "45684386": { name: "Ibrahim", img: "https://i.ibb.co/example/Ibrahim.jpg" },
     "41524121": { name: "Masfiyad", img: "https://i.ibb.co/example/Masfiyad.jpg" },
+    "01842741": { name: "Mehedi", img: "https://i.ibb.co/example/Mehedi.jpg" },
 };
 
 let verifiedMemberId = "";
