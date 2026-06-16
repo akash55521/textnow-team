@@ -418,12 +418,24 @@ document.getElementById('getOtpBtn').addEventListener('click', function() {
 // ========================================================
 // 🔄 ৭. ইউটিলিটি বাটন অ্যাকশনস (Copy & Reset)
 // ========================================================
+// ========================================================
+// 🔄 ৭. আপডেট করা কপি বাটন (গুগল শিট ফ্রেন্ডলি)
+// ========================================================
 document.getElementById('copyBtn').addEventListener('click', function() {
-    const text = document.getElementById('credentialsText');
-    text.select();
-    document.execCommand('copy');
-    this.innerText = "✓ Copied!";
-    setTimeout(() => { this.innerText = "Copy Credentials"; }, 2000);
+    const textElement = document.getElementById('credentialsText');
+    const rawData = textElement.value;
+    
+    // ফরম্যাটিং: সেমিকোলন (;) বা পাইপ (|) থাকলে সেটিকে ট্যাব (\t) দিয়ে রিপ্লেস করুন
+    // এতে গুগল শিটে পেস্ট করলে অটোমেটিক কলামে ভাগ হয়ে যাবে
+    const formattedData = rawData.replace(/[;|]/g, "\t"); 
+
+    navigator.clipboard.writeText(formattedData).then(() => {
+        this.innerText = "✓ Copied for Sheet!";
+        setTimeout(() => { this.innerText = "Copy Credentials"; }, 2000);
+    }).catch(err => {
+        console.error("Copy failed: ", err);
+        alert("কপি করতে সমস্যা হয়েছে!");
+    });
 });
 
 document.getElementById('newOrderBtn').addEventListener('click', function() {
