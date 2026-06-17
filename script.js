@@ -92,15 +92,21 @@ document.getElementById('digitalOrderForm').addEventListener('submit', async fun
     const productName = document.getElementById('product').value.trim().toLowerCase(); 
     const quantity = parseInt(document.getElementById('quantity').value);
 
-    // [প্রক্সি লজিক আগের মতোই থাকবে]
+    // [প্রক্সি লজিক - আপডেট করা হয়েছে]
     if (productName.includes("proxy")) {
-        // ... (প্রক্সি কোড এখানে আগের মতোই রাখুন)
+        // ফর্ম হাইড করুন
+        document.getElementById('orderFormContainer').style.display = 'none';
+        // সাকসেস মেসেজ দেখান
+        document.getElementById('successContainer').style.display = 'block';
+        document.getElementById('successProductType').innerText = "PROXY | PURCHASE SUCCESSFUL";
+        
+        // এখানে আপনার নির্ধারিত প্রক্সি ডাটা দিন
+        document.getElementById('credentialsText').value = "192.168.1.1:8080:user:pass"; 
+        
+        // বাটন রিসেট করার ফাংশন কল করুন
+        resetButton();
         return; 
     }
-
-    submitBtn.innerText = "অর্ডারিং হচ্ছে...";
-    submitBtn.disabled = true;
-
     const uniqueRequestId = 'req-' + Math.random().toString(36).substring(2, 15);
     const proxyUrl = "https://skyandstudio.xyz/proxy.php?url=";
     let apiUrl = "";
@@ -128,7 +134,7 @@ document.getElementById('digitalOrderForm').addEventListener('submit', async fun
         fetchOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ product_id:'prd_eeeb28bc00cf', amount: quantity })
+            body: JSON.stringify({ product_id: 'prd_eeeb28bc00cf', amount: quantity })
         };
     } else {
         alert("দয়া করে একটি সঠিক প্রোডাক্ট সিলেক্ট করুন (Hotmail/PlayStore)।");
@@ -349,9 +355,7 @@ document.getElementById('getOtpBtn').addEventListener('click', function() {
 });
 
 // =======================================================
-//// 🔄 ৭. ইউটিলিটি বাটন অ্যাকশনস (Copy & Reset)
-
-// কপি বাটন হ্যান্ডেলার
+/// 🔄 ৭. ইউটিলিটি বাটন অ্যাকশনস (Copy & Reset) - কাস্টম ফরম্যাটার
 document.getElementById('copyBtn').addEventListener('click', function () {
     const credentialsField = document.getElementById('credentialsText');
     const rawData = credentialsField.value.trim();
@@ -361,21 +365,30 @@ document.getElementById('copyBtn').addEventListener('click', function () {
         return;
     }
 
-    // ফরম্যাটিং লজিক
-    let email = "";
-    const firstSpace = rawData.indexOf(' ');
-    const firstPipe = rawData.indexOf('|');
-    let splitIndex = -1;
+    let finalData = "";
 
-    if (firstSpace !== -1 && firstPipe !== -1) splitIndex = Math.min(firstSpace, firstPipe);
-    else splitIndex = (firstSpace !== -1) ? firstSpace : firstPipe;
+    // হটমেইল চেক (যদি '|' থাকে)
+    if (rawData.includes('|')) {
+        // হটমেইলের জন্য: কোনো পরিবর্তন হবে না, অরিজিনাল ডাটা থাকবে
+        finalData = rawData;
+    } 
+    // প্লেস্টোর চেক
+    else {
+        // প্লেস্টোরের জন্য: ইমেইল এবং পাসওয়ার্ডকে ট্যাব (\t) দিয়ে আলাদা করছি
+        // যাতে শিটে কলাম A তে ইমেইল এবং কলাম B তে পাসওয়ার্ড যায়
+        const lines = rawData.split('\n');
+        finalData = lines.map(line => {
+            line = line.trim();
+            const parts = line.split(/\s+/); // স্পেস দিয়ে ভাগ করছি
+            if (parts.length >= 2) {
+                return `${parts[0]}\t${parts[1]}`; // কলাম A \t কলাম B
+            }
+            return line;
+        }).join('\n');
+    }
 
-    if (splitIndex !== -1) email = rawData.substring(0, splitIndex).trim();
-    else email = rawData.split('\n')[0].trim();
-
-    const formattedData = `${email}\t${rawData}`;
-
-    navigator.clipboard.writeText(formattedData)
+    // কপি অপারেশন
+    navigator.clipboard.writeText(finalData)
         .then(() => {
             const originalText = this.innerText;
             this.innerText = '✓ কপি হয়েছে!';
@@ -386,29 +399,48 @@ document.getElementById('copyBtn').addEventListener('click', function () {
             alert('কপি ব্যর্থ হয়েছে!');
         });
 });
-
-// অর্ডার মোর বাটন হ্যান্ডেলার
-document.getElementById('newOrderBtn').addEventListener('click', function() {
-    console.log("Order More clicked"); // কনসোলে চেক করার জন্য
+document.getElementById('digitalOrderForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
     
+    // সিলেক্ট থেকে প্রোডাক্টের ভ্যালু নিচ্ছি
+    const productSelect = document.getElementById('product');
+    const productName = productSelect.value.toLowerCase(); // এখানে 'proxy' আসবে
+    const quantity = parseInt(document.getElementById('quantity').value);
+
+    // --- প্রক্সি লজিক শুরু (এই অংশটি কপি করে সাবমিট হ্যান্ডলারের শুরুতে বসান) ---
+    if (productName === "proxy") {
+        document.getElementById('orderFormContainer').style.display = 'none';
+        document.getElementById('successContainer').style.display = 'block';
+        
+        document.getElementById('successProductType').innerText = "PROXY | PURCHASE SUCCESSFUL";
+        document.getElementById('displayOrderId').innerText = "#TXT-" + Date.now(); // রেন্ডম আইডি
+        
+        // আপনার কাঙ্ক্ষিত ডাটা এখানে সেট করছি
+        document.getElementById('credentialsText').value = "51.79.86.61:5590:textnow55522"
+        
+        
+        return; // এপিআই লজিকে আর যাবে না
+    }
+    // --- প্রক্সি লজিক শেষ ---
+
+    // আপনার আগের এপিআই কোডগুলো এখান থেকে শুরু হবে...
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.innerText = "অর্ডারিং হচ্ছে...";
+    // ... বাকি কোড ...
+});
+// 🔄 Order More বাটন হ্যান্ডলার
+document.getElementById('newOrderBtn').addEventListener('click', function() {
     // ১. সাকসেস কন্টেইনার লুকান
     document.getElementById('successContainer').style.display = 'none';
     
     // ২. অর্ডার ফর্ম কন্টেইনার দেখান
     document.getElementById('orderFormContainer').style.display = 'block';
     
-    // ৩. ফর্মটি ক্লিন করুন
+    // ৩. ফর্ম রিসেট করুন (যাতে পুরনো ইনপুট না থাকে)
     document.getElementById('digitalOrderForm').reset();
     
-    // ৪. সাবমিট বাটন এবং অন্যান্য স্টেট রিসেট করুন
-    resetButton();
-});
-
-// রিসেট ফাংশন (অবশ্যই যেন এটি গ্লোবাল স্কোপে থাকে)
-function resetButton() {
+    // ৪. বাটন সচল করুন (যদি আগে ডিজেবল হয়ে থাকে)
     const submitBtn = document.getElementById('submitBtn');
-    if (submitBtn) {
-        submitBtn.innerText = "অর্ডার সাবমিট করুন";
-        submitBtn.disabled = false;
-    }
-}
+    submitBtn.innerText = "অর্ডার সাবমিট করুন";
+    submitBtn.disabled = false;
+});
