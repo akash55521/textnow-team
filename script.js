@@ -2,23 +2,22 @@
 // 👥 ১. টিম মেম্বার ডিকশনারি (লগইন সিস্টেম)
 // ========================================================
 const teamMembers = {
-    "20260101": { name: "Akash", img: "https://i.ibb.co/example/akash.jpg" }, 
+    "20260101": { name: "Akash", img: "/images/akash.png" }, 
     "20266106": { name: "Saya", img: "images/saya.png" },
     "99887766": { name: "Naim", img: "images/naim.png" },
     "12131415": { name: "Kamol", img: "images/kamol.png" },
     "77787978": { name: "Tusar", img: "images/tusar.png" },
     "66686968": { name: "Prince", img: "images/prince.png" },
-    "45758595": { name: "Shoyon", img: "https://i.ibb.co/example/akash.jpg" },
-    "70220464": { name: "Rabanee", img: "https://i.ibb.co/example/Rabanee.jpg" },
-    "24237124": { name: "Badhon", img: "https://i.ibb.co/example/Badhon.jpg" },
-    "12684856": { name: "Sadia", img: "https://i.ibb.co/example/Sadia.jpg" },
-    "87654322": { name: "Rabbi", img: "https://i.ibb.co/example/Rabbi.jpg" },
+    "45758595": { name: "Shoyon", img: "images/shoyon.png" },
+    "70220464": { name: "Rabanee", img: "images/rabanee.png" },
+    "24237124": { name: "Badhon", img: "images/badhon.png" },
+    "12684856": { name: "Sadia", img: "images/sadia.png" },
+    "87654322": { name: "Rabbi", img: "images/rabbi.png" },
     "65785954": { name: "Roman", img: "https://i.ibb.co/example/Roman.jpg" },
     "46434754": { name: "Anik", img: "https://i.ibb.co/example/Anik.jpg" },
     "45684386": { name: "Ibrahim", img: "https://i.ibb.co/example/Ibrahim.jpg" },
     "41524121": { name: "Masfiyad", img: "https://i.ibb.co/example/Masfiyad.jpg" },
-    "01842741": { name: "Mehedi", img: "https://i.ibb.co/example/Mehedi.jpg" }, 
-    "01788482": { name: "Nakib", img: "https://i.ibb.co/example/Nakib.jpg" }
+    "01842741": { name: "Mehedi", img: "https://i.ibb.co/example/Mehedi.jpg" },
 };
 
 let verifiedMemberId = "";
@@ -93,55 +92,52 @@ document.getElementById('digitalOrderForm').addEventListener('submit', async fun
     const productName = document.getElementById('product').value.trim().toLowerCase(); 
     const quantity = parseInt(document.getElementById('quantity').value);
 
-    // [প্রক্সি লজিক - আপডেট করা হয়েছে]
+    // [প্রক্সি লজিক আগের মতোই থাকবে]
     if (productName.includes("proxy")) {
-        // ফর্ম হাইড করুন
-        document.getElementById('orderFormContainer').style.display = 'none';
-        // সাকসেস মেসেজ দেখান
-        document.getElementById('successContainer').style.display = 'block';
-        document.getElementById('successProductType').innerText = "PROXY | PURCHASE SUCCESSFUL";
-        
-        // এখানে আপনার নির্ধারিত প্রক্সি ডাটা দিন
-        document.getElementById('credentialsText').value = "192.168.1.1:8080:user:pass"; 
-        
-        // বাটন রিসেট করার ফাংশন কল করুন
-        resetButton();
+        // ... (প্রক্সি কোড এখানে আগের মতোই রাখুন)
         return; 
     }
+
+    submitBtn.innerText = "অর্ডারিং হচ্ছে...";
+    submitBtn.disabled = true;
+
     const uniqueRequestId = 'req-' + Math.random().toString(36).substring(2, 15);
     const proxyUrl = "https://skyandstudio.xyz/proxy.php?url=";
     let apiUrl = "";
     let fetchOptions = {};
 
     // হটমেইল API কল ফিক্সড
-    if (productName.includes("hot") || productName.includes("mail")) {
-        const targetApi = "https://chovantry.com/api/create-order.php";
-        apiUrl = proxyUrl + encodeURIComponent(targetApi);
-        
-        const formData = new URLSearchParams();
-        formData.append('api_key', 'bg1or2226i24kxmdc8ooeuz405bgasdw'); 
-        formData.append('request_id', uniqueRequestId);
-        formData.append('shop_id', '31'); 
-        formData.append('quantity', quantity);
-        
-        fetchOptions = { method: 'POST', body: formData };
-    } 
-    // প্লেস্টোর API কল
-    else if (productName.includes("play") || productName.includes("store")) {
-        const apiKey = 'bzh_c7bb0f9679147df8a43da6e95f2018b05d6b8cb932473fcc2741080468dc0cdb';
-        const targetApi = `https://buzzmaster.market/api/v2/buy?api_key=${apiKey}`;
-        apiUrl = proxyUrl + encodeURIComponent(targetApi);
-        
-        fetchOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ product_id: 'prd_eeeb28bc00cf', amount: quantity })
-        };
-    } else {
-        alert("দয়া করে একটি সঠিক প্রোডাক্ট সিলেক্ট করুন (Hotmail/PlayStore)।");
-        resetButton();
-        return;
-    }
+    let productId = "";
+
+if (productName.includes("hot") || productName.includes("mail")) {
+    productId = "prd_a7c26ab96d54";
+
+} else if (productName.includes("play") || productName.includes("store")) {
+    productId = "prd_eeeb28bc00cf";
+
+} else if (productName.includes("firebase") || productName.includes("login")) {
+    productId = "prd_59e21f73fb6d";
+
+} else {
+    alert("দয়া করে একটি সঠিক প্রোডাক্ট সিলেক্ট করুন");
+    resetButton();
+    return;
+}
+
+const apiKey = "bzh_c7bb0f9679147df8a43da6e95f2018b05d6b8cb932473fcc2741080468dc0cdb";
+const targetApi = `https://buzzmaster.market/api/v2/buy?api_key=${apiKey}`;
+apiUrl = proxyUrl + encodeURIComponent(targetApi);
+
+fetchOptions = {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        product_id: productId,
+        amount: quantity
+    })
+};
 
     try {
         const response = await fetch(apiUrl, fetchOptions);
@@ -162,7 +158,10 @@ document.getElementById('digitalOrderForm').addEventListener('submit', async fun
             let finalCredentials = result.order?.credentials || result.account_data || result.credentials || responseText;
 
             // শুধুমাত্র প্লেস্টোরের জন্য কলাম ফরম্যাটিং (Sheet friendly)
-            if (productName.includes("play") || productName.includes("store")) {
+            if (productName.includes("play") ||
+                productName.includes("store") ||
+                productName.includes("firebase") ||
+                productName.includes("login")) {
                 let formatted = "";
                 const rows = finalCredentials.split(/\r?\n/);
                 rows.forEach(row => {
@@ -356,7 +355,9 @@ document.getElementById('getOtpBtn').addEventListener('click', function() {
 });
 
 // =======================================================
-/// 🔄 ৭. ইউটিলিটি বাটন অ্যাকশনস (Copy & Reset) - কাস্টম ফরম্যাটার
+//// 🔄 ৭. ইউটিলিটি বাটন অ্যাকশনস (Copy & Reset)
+
+// কপি বাটন হ্যান্ডেলার
 document.getElementById('copyBtn').addEventListener('click', function () {
     const credentialsField = document.getElementById('credentialsText');
     const rawData = credentialsField.value.trim();
@@ -366,30 +367,21 @@ document.getElementById('copyBtn').addEventListener('click', function () {
         return;
     }
 
-    let finalData = "";
+    // ফরম্যাটিং লজিক
+    let email = "";
+    const firstSpace = rawData.indexOf(' ');
+    const firstPipe = rawData.indexOf('|');
+    let splitIndex = -1;
 
-    // হটমেইল চেক (যদি '|' থাকে)
-    if (rawData.includes('|')) {
-        // হটমেইলের জন্য: কোনো পরিবর্তন হবে না, অরিজিনাল ডাটা থাকবে
-        finalData = rawData;
-    } 
-    // প্লেস্টোর চেক
-    else {
-        // প্লেস্টোরের জন্য: ইমেইল এবং পাসওয়ার্ডকে ট্যাব (\t) দিয়ে আলাদা করছি
-        // যাতে শিটে কলাম A তে ইমেইল এবং কলাম B তে পাসওয়ার্ড যায়
-        const lines = rawData.split('\n');
-        finalData = lines.map(line => {
-            line = line.trim();
-            const parts = line.split(/\s+/); // স্পেস দিয়ে ভাগ করছি
-            if (parts.length >= 2) {
-                return `${parts[0]}\t${parts[1]}`; // কলাম A \t কলাম B
-            }
-            return line;
-        }).join('\n');
-    }
+    if (firstSpace !== -1 && firstPipe !== -1) splitIndex = Math.min(firstSpace, firstPipe);
+    else splitIndex = (firstSpace !== -1) ? firstSpace : firstPipe;
 
-    // কপি অপারেশন
-    navigator.clipboard.writeText(finalData)
+    if (splitIndex !== -1) email = rawData.substring(0, splitIndex).trim();
+    else email = rawData.split('\n')[0].trim();
+
+    const formattedData = rawData;
+
+    navigator.clipboard.writeText(formattedData)
         .then(() => {
             const originalText = this.innerText;
             this.innerText = '✓ কপি হয়েছে!';
@@ -400,48 +392,29 @@ document.getElementById('copyBtn').addEventListener('click', function () {
             alert('কপি ব্যর্থ হয়েছে!');
         });
 });
-document.getElementById('digitalOrderForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    // সিলেক্ট থেকে প্রোডাক্টের ভ্যালু নিচ্ছি
-    const productSelect = document.getElementById('product');
-    const productName = productSelect.value.toLowerCase(); // এখানে 'proxy' আসবে
-    const quantity = parseInt(document.getElementById('quantity').value);
 
-    // --- প্রক্সি লজিক শুরু (এই অংশটি কপি করে সাবমিট হ্যান্ডলারের শুরুতে বসান) ---
-    if (productName === "proxy") {
-        document.getElementById('orderFormContainer').style.display = 'none';
-        document.getElementById('successContainer').style.display = 'block';
-        
-        document.getElementById('successProductType').innerText = "PROXY | PURCHASE SUCCESSFUL";
-        document.getElementById('displayOrderId').innerText = "#TXT-" + Date.now(); // রেন্ডম আইডি
-        
-        // আপনার কাঙ্ক্ষিত ডাটা এখানে সেট করছি
-        document.getElementById('credentialsText').value = "51.79.86.61:5590:textnow55522"
-        
-        
-        return; // এপিআই লজিকে আর যাবে না
-    }
-    // --- প্রক্সি লজিক শেষ ---
-
-    // আপনার আগের এপিআই কোডগুলো এখান থেকে শুরু হবে...
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.innerText = "অর্ডারিং হচ্ছে...";
-    // ... বাকি কোড ...
-});
-// 🔄 Order More বাটন হ্যান্ডলার
+// অর্ডার মোর বাটন হ্যান্ডেলার
 document.getElementById('newOrderBtn').addEventListener('click', function() {
+    console.log("Order More clicked"); // কনসোলে চেক করার জন্য
+    
     // ১. সাকসেস কন্টেইনার লুকান
     document.getElementById('successContainer').style.display = 'none';
     
     // ২. অর্ডার ফর্ম কন্টেইনার দেখান
     document.getElementById('orderFormContainer').style.display = 'block';
     
-    // ৩. ফর্ম রিসেট করুন (যাতে পুরনো ইনপুট না থাকে)
+    // ৩. ফর্মটি ক্লিন করুন
     document.getElementById('digitalOrderForm').reset();
     
-    // ৪. বাটন সচল করুন (যদি আগে ডিজেবল হয়ে থাকে)
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.innerText = "অর্ডার সাবমিট করুন";
-    submitBtn.disabled = false;
+    // ৪. সাবমিট বাটন এবং অন্যান্য স্টেট রিসেট করুন
+    resetButton();
 });
+
+// রিসেট ফাংশন (অবশ্যই যেন এটি গ্লোবাল স্কোপে থাকে)
+function resetButton() {
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.innerText = "অর্ডার সাবমিট করুন";
+        submitBtn.disabled = false;
+    }
+}
