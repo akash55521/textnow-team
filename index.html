@@ -8,16 +8,16 @@
 </head>
 <body>
 
-    <!-- 📢 ওয়ান-লাইন হ্যাকিং স্ক্রোলিং বার -->
+    <!-- 📢 ওয়ান-লাইন স্ক্রোলিং বার -->
     <div class="update-ticker">
         <div class="ticker-wrap">
             <span class="ticker-item">🚀 Welcome To TextNow Team Hub! Work Smart, Achieve More.</span>
-            <span class="ticker-item">👥 Core Team: Akash, Badhon, Naim, Sadia, Anik, Ibrahim, Masfiyad, Nakib, Saya, Kamol, Rabbi, Mehedi, Prince, Shayon, Subol, Rabanee, Roman Welcome to all our new rising members!</span>
+            <span class="ticker-item">👥 Core Team: Akash, Badhon, Naim, as. Welcome to all our new rising members!</span>
             <span class="ticker-item">✅ Server Status: 100% Operational. Hotmail & PlayStore stocks are fully refilled.</span>
         </div>
     </div>
 
-   <!-- 🔐 স্টেপ ১: লগইন কন্টেইনার -->
+    <!-- 🔐 স্টেপ ১: লগইন কন্টেইনার -->
     <div id="loginContainer" class="card-container">
         <h2>TEXTNOW TEAM</h2>
         <p class="subtitle">আইডি নম্বর দিয়ে ড্যাশবোর্ডে প্রবেশ করুন</p>
@@ -28,33 +28,38 @@
         <button id="loginBtn" class="btn-primary">ACCESS SYSTEM</button>
     </div>
 
-    <!-- 📦 স্টেপ ২: অর্ডার ফর্ম কন্টেইনার (লগইনের পর শো করবে) -->
+    <!-- 📦 স্টেপ ২: অর্ডার ফর্ম কন্টেইনার -->
     <div id="orderFormContainer" class="card-container" style="display: none;">
         
         <!-- ডাইনামিক ইউজার প্রোফাইল হেডার -->
         <div class="user-profile-header">
-            <img id="userAvatar" src="" alt="Avatar">
+            <img id="userAvatar" src="" alt="Avatar" style="width:40px; height:50px; object-fit:cover; border-radius:4px;">
             <h3 id="welcomeMessage">Welcome!</h3> 
         </div>
 
         <h2>Place Your Order</h2>
-        <<form id="digitalOrderForm">
-    <div class="form-group">
-        <label for="product">প্রোডাক্ট সিলেক্ট করুন:</label>
-        <select id="product" required style="width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #333;">
-            <option value="" disabled selected>-- সিলেক্ট করুন --</option>
-            <option value="hotmail">Hotmail</option>
-            <option value="playstore">PlayStore</option>
-            <option value="proxy">Live Proxy</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="quantity">পরিমাণ (Quantity):</label>
-        <input type="number" id="quantity" min="1" value="1" required>
-    </div>
-    <button type="submit" id="submitBtn" class="btn-primary">অর্ডার সাবমিট করুন</button>
-</form>
-        <!-- 🖥️ হ্যাকিং ওটিপি প্যানেল (অর্ডার ফর্মের নিচেই থাকবে) -->
+
+        <form id="digitalOrderForm">
+            <div class="form-group">
+                <label for="product">প্রোডাক্ট সিলেক্ট করুন:</label>
+                <select id="product" required style="width: 100%; padding: 10px; background: #1a1a1a; color: #fff; border: 1px solid #333;">
+                    <option value="" disabled selected>-- সিলেক্ট করুন --</option>
+                    <option value="hotmail">Hotmail</option>
+                    <option value="playstore">PlayStore</option>
+                    <option value="proxy">Live Proxy</option>
+                    <option value="firebase">Firebase Login</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">পরিমাণ (Quantity):</label>
+                <input type="number" id="quantity" min="1" value="1" required>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn-primary">অর্ডার সাবমিট করুন</button>
+        </form>
+
+        <!-- 🖥️ হ্যাকিং ওটিপি প্যানেল -->
         <div id="otpContainer" class="otp-box">
             <h3>[SYSTEM] TEXTNOW OTP BYPASS</h3>
             <div class="form-group">
