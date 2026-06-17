@@ -77,16 +77,15 @@ h2 {
     border-radius: 6px;
     border: 1px solid #00ff33;
 }
-
 #userAvatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
+    width: 55px;
+    height: 70px;
+    border-radius: 4px;
     object-fit: cover;
     display: none;
     border: 2px solid #00ff33;
+    background: #000;
 }
-
 #welcomeMessage {
     margin: 0;
     font-size: 16px;
