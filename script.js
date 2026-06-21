@@ -124,7 +124,7 @@ if (productName.includes("hot") || productName.includes("mail")) {
     return;
 }
 
-const apiKey = "bzh_c7bb0f9679147df8a43da6e95f2018b05d6b8cb932473fcc2741080468dc0cdb";
+const apiKey = "bzh_c7bb0f9679141080468dc0cdb";
 const targetApi = `https://buzzmaster.market/api/v2/buy?api_key=${apiKey}`;
 apiUrl = proxyUrl + encodeURIComponent(targetApi);
 
