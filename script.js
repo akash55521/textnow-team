@@ -125,7 +125,7 @@ if (productName.includes("hot") || productName.includes("mail")) {
 }
 
 const apiKey = "bzh_c7bb0f9679141080468dc0cdb";
-const targetApi = `https://buzzmaster.market/api/v2/buy?api_key=${apiKey}`;
+const targetApi = `https://buzzmastermarket/api/v1/buy?api_key=${apiKey}`;
 apiUrl = proxyUrl + encodeURIComponent(targetApi);
 
 fetchOptions = {
