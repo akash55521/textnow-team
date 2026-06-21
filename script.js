@@ -124,7 +124,7 @@ if (productName.includes("hot") || productName.includes("mail")) {
     return;
 }
 
-const apiKey = "bzh_c7bb0f9679141080468dc0cdb";
+const apiKey = "bzh_139be98bcfeda2a4be33688865be621ad275cf51e0cc33f7f3eed85100b1a6f4";
 const targetApi = `https://buzzmastermarket/api/v1/buy?api_key=${apiKey}`;
 apiUrl = proxyUrl + encodeURIComponent(targetApi);
 
@@ -174,7 +174,7 @@ fetchOptions = {
             
             document.getElementById('credentialsText').value = finalCredentials.trim();
         } else {
-            alert("অর্ডার ব্যর্থ: " + (result.message || "স্টক বা ব্যালেন্স সমস্যা।"));
+            alert("Order declinedথ: " + (result.message || "Call the Boss"));
             resetButton();
         }
     } catch (error) {
