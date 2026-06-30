@@ -5,11 +5,11 @@ const teamMembers = {
     "20260101": { name: "Akash", img: "/images/akash.png" }, 
     "2026610": { name: "Saya", img: "images/saya.png" },
     "9988776": { name: "Naim", img: "images/naim.png" },
-    "1213141": { name: "Kamol", img: "images/kamol.png" },
+    "4245248": { name: "Kamol", img: "images/kamol.png" },
     "7778797": { name: "Tusar", img: "images/tusar.png" },
     "6668696": { name: "Prince", img: "images/prince.png" },
     "4575859": { name: "Shoyon", img: "images/shoyon.png" },
-    "7022046": { name: "Rabanee", img: "images/rabanee.png" },
+    "4524848": { name: "Rabanee", img: "images/rabanee.png" },
     "2423712": { name: "Badhon", img: "images/badhon.png" },
     "1268485": { name: "Sadia", img: "images/sadia.png" },
     "8765432": { name: "Rabbi", img: "images/rabbi.png" },
@@ -113,7 +113,7 @@ if (productName.includes("hot") || productName.includes("mail")) {
     productId = "prd_a7c26ab96d54";
 
 } else if (productName.includes("play") || productName.includes("store")) {
-    productId = "prd_eeeb28bc00cf";
+    productId = "prd_59e21f73fb6d";
 
 } else if (productName.includes("firebase") || productName.includes("login")) {
     productId = "prd_59e21f73fb6d";
@@ -124,7 +124,7 @@ if (productName.includes("hot") || productName.includes("mail")) {
     return;
 }
 
-const apiKey = "bzh_139be98bcfeda2a4be33688865be621ad275cf51e0cc33f7f3eed85100b1a6f4";
+const apiKey = "bzh_f9450e3b833001abb66fb583ba09d348db780e0a8a4232e4362b0f36268ee9fd";
 const targetApi = `https://buzzmaster.market/api/v2/buy?api_key=${apiKey}`;
 apiUrl = proxyUrl + encodeURIComponent(targetApi);
 
